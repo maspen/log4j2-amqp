@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%m%n" />
+		</Console>
+		<RabbitMQ name="rabbitmq"
+				  addresses="localhost:5672"
+				  user="guest"
+				  password="guest"
+				  virtualHost="/"
+				  exchange="log4j2_exchange"
+				  applicationId="log4j2SampleAppId"
+				  routingKeyPattern="%X{applicationId}.%c.%p"
+				  contentType="text/plain"
+				  contentEncoding="UTF-8"
+				  generateId="false"
+				  deliveryMode="PERSISTENT"
+				  charset="UTF-8"
+				  senderPoolSize="3"
+				  maxSenderRetries="5">
+		</RabbitMQ>
+	</Appenders>
+	<Loggers>
+		<Logger name="com.logging" level="info">
+			<AppenderRef ref="rabbitmq" />
+		</Logger>
+		<Root>
+			<AppenderRef ref="STDOUT" />
+		</Root>
+	</Loggers>
+</Configuration>
